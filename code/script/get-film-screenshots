@@ -1,0 +1,24 @@
+#!/bin/bash
+
+shuf -n 50 list-$1.txt
+for var1 in `head -15 list-$1.txt`
+do
+wget http://www.imdb.com/title/$var1 -O temp
+wget `cat temp | grep tt_pv_vi_aiv_1 | sed 's/<a href="/www.imdb.com/g' | cut -d'?' -f1` -O $var1-video
+wget `cat $var1-video  | tr '{}' '\n' | grep mp4 | sort | uniq | sed 's/"definition":"//g' | sed 's/p","/ /g' | sort -n -r | tr '"' ' ' | awk '{print $NF}' | head -1` -O $var1-video.mp4 
+
+sec_tot=`ffprobe -v error -show_entries format=duration \-of default=noprint_wrappers=1:nokey=1 $var1-video.mp4`
+nframe=10
+frdaeliminare=11
+
+framerate=$nframe/$sec_tot
+
+
+ffmpeg -i $var1-video.mp4 -vf fps=$framerate -aspect 1.5 -b:v 2000  $2$1-$var1-%d.png
+
+rm -f $var1-video
+rm -f $var1-video.mp4
+rm -f $2$1-$var1-$frdaeliminare.png
+done
+
+rm -f temp
