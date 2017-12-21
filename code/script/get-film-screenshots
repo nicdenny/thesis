@@ -14,7 +14,10 @@ frdaeliminare=11
 framerate=$nframe/$sec_tot
 
 
-ffmpeg -i $var1-video.mp4 -vf fps=$framerate -aspect 1.5 -b:v 2000  $2$1-$var1-%d.png
+ffmpeg -i $var1-video.mp4 -y -vf fps=$framerate -aspect 1.5 -b:v 2000  $2$1-$var1-%d.png
+montage $var1-video-frame-*.png -geometry 720x480 -tile 10x1 $var1-tile.png
+convert $var1-tile.png -fuzz 10% -trim $var1-tile.png;
+convert $var1-tile.png -crop 720x480 $var1-video-frame-%d.png
 
 rm -f $var1-video
 rm -f $var1-video.mp4
