@@ -1,7 +1,6 @@
 #!/bin/bash
 
-shuf -n 50 list-$1.txt
-for var1 in `head -15 list-$1.txt`
+for var1 in `head -1 list-$1.txt`
 do
 wget http://www.imdb.com/title/$var1 -O temp
 wget `cat temp | grep tt_pv_vi_aiv_1 | sed 's/<a href="/www.imdb.com/g' | cut -d'?' -f1` -O $var1-video
@@ -14,14 +13,16 @@ frdaeliminare=11
 framerate=$nframe/$sec_tot
 
 
-ffmpeg -i $var1-video.mp4 -y -vf fps=$framerate -aspect 1.5 -b:v 2000  $2$1-$var1-%d.png
-montage $var1-video-frame-*.png -geometry 720x480 -tile 10x1 $var1-tile.png
-convert $var1-tile.png -fuzz 10% -trim $var1-tile.png;
-convert $var1-tile.png -crop 720x480 $var1-video-frame-%d.png
+ffmpeg -i $var1-video.mp4 -y -vf fps=$framerate -s 720x480 -aspect 1.5 -b:v 2000  $2$1-$var1-video-frame-%d.png
+rm -f $2$1-$var1-video-frame-$frdaeliminare.png
+montage $2$1-$var1-video-frame-*.png -geometry 720x480 -tile 10x1 $2$var1-tile.png
+convert $2$var1-tile.png -fuzz 10% -trim $2$var1-tile.png;
+convert $2$var1-tile.png -crop 720x480 $2$1-$var1-video-frame-%d.png
+
 
 rm -f $var1-video
 rm -f $var1-video.mp4
-rm -f $2$1-$var1-$frdaeliminare.png
+rm -f $2$var1-tile.png
 done
 
 rm -f temp
