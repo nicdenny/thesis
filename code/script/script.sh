@@ -1,4 +1,6 @@
 #!/bin/bash
+#da correggere!
+
 
 /home/nicholas/tesi/code/get-film-screenshots action /home/nicholas/tesi/input/train/screenshots
 /home/nicholas/tesi/code/get-film-screenshots drama /home/nicholas/tesi/input/train/screenshots
