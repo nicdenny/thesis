@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for var1 in `head -1 list-$1.txt`
+for var1 in `head -100 list-$1.txt`
 do
 wget http://www.imdb.com/title/$var1 -O temp
 wget `cat temp | grep tt_pv_vi_aiv_1 | sed 's/<a href="/www.imdb.com/g' | cut -d'?' -f1` -O $var1-video
