@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for file in /home/denny/thesis/input/train/
+do
+	/home/denny/thesis/code/bezier/test "$file"
+done
