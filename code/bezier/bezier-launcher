@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for file in /home/denny/thesis/input/train/*
+do
+	./test "$file"
+	rm -rf *.dot
+done
